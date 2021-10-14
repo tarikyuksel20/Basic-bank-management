@@ -1,0 +1,87 @@
+#include<iostream>
+#include <string>
+using namespace std;
+
+void menu()
+{
+    cout << "***MENU***" << endl;
+    cout << "1.Check balance" << endl;
+    cout << "2.Deposit" << endl;
+    cout << "3.Withdraw" << endl;
+    cout << "4.Transfer money" << endl;
+    cout << "5.Log out" << endl;
+    cout << "6.Exit" << endl;
+
+}
+void showInsuficientFoundesError() {
+    system("cls");
+    cout << "ERROR insufficient funds in balance" << endl;
+}
+
+int main()
+{
+
+    int op=0, us;
+    double balance = 500, balance2 = 600;
+    string user1 = "user1", user2 = "user2";
+    string loginUser;
+    bool userLoggedIn = false;
+
+    do {
+
+        while (!userLoggedIn)
+        {
+            cout << "Login user: ";
+            cin >> loginUser;
+            if(loginUser == user1 || loginUser == user2)
+                userLoggedIn = true;
+        }
+
+        menu();
+        cout << loginUser<< ", select option: ";
+        cin >> op;
+        system("cls");
+
+
+            switch (op) {
+            case 1:
+                cout << "Balance is: ";
+                loginUser == user1 ? cout << balance : cout << balance2;
+                cout<< "$" << endl; break;
+            case 2: cout << "Deposit amount: ";
+                double deposit;
+                cin >> deposit;
+                loginUser == user1 ? balance += deposit : balance2 += deposit;
+                break;
+            case 3: cout << "Withdraw amount: "; double withdraw; cin >> withdraw;
+
+                if (loginUser == user1 && withdraw <= balance)
+                    balance -= withdraw;
+                else if (loginUser == user2 && withdraw <= balance2)
+                    balance2 -= withdraw;
+                else
+                    showInsuficientFoundesError();
+
+                break;
+            case 4: cout << "Transfer amount: "; double transfer; cin >> transfer;
+                if (loginUser == user1 && transfer <= balance) {
+                    balance -= transfer;
+                    balance2 += transfer;
+                }
+                else if (loginUser == user2 && transfer <= balance2) {
+                    balance2 -= transfer;
+                    balance += transfer;
+                }
+                else
+                    showInsuficientFoundesError();
+
+                break;
+            case 5:
+                userLoggedIn = false; break;
+
+        }
+
+    } while (op != 6);
+
+    system("pause>0");
+}
